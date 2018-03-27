@@ -260,7 +260,7 @@
     */
     chart: function() {
       this.resetEdges();
-      this.distances = new Object();
+      // this.distances = new Object();
 
       for (var i = 0; i < this.boxes.length; i++) {
         var box = this.boxes[i];
@@ -272,78 +272,78 @@
         this.edges.y.push.apply(this.edges.y, interestPoints.y);
       }
 
-      this.chartDistances();
+      // this.chartDistances();
 
       this.showAllGuides();
     },
-    chartDistances: function() {
-      for (var i = 0, l = this.boxes.length; i < l; i++) {
-        var boxA = this.boxes[i];
+    // chartDistances: function() {
+    //   for (var i = 0, l = this.boxes.length; i < l; i++) {
+    //     var boxA = this.boxes[i];
 
-        for (var j = 0; j < l; j++) {
-          var boxB = this.boxes[j];
-          if (i !== j) {
-            var distanceX = boxB.left - boxA.right;
-            var distanceY = boxB.top - boxA.bottom;
+    //     for (var j = 0; j < l; j++) {
+    //       var boxB = this.boxes[j];
+    //       if (i !== j) {
+    //         var distanceX = boxB.left - boxA.right;
+    //         var distanceY = boxB.top - boxA.bottom;
 
-            if (distanceX > this.minimumDistance)
-              this.addDistance('x', distanceX, boxA, boxB);
+    //         if (distanceX > this.minimumDistance)
+    //           this.addDistance('x', distanceX, boxA, boxB);
 
-            if (distanceY > this.minimumDistance)
-              this.addDistance('y', distanceY, boxA, boxB);
-          }
-        }
-      }
-    },
-    addDistance: function(axis, distance, boxA, boxB) {
-      var start = axis === 'x' ? 'right' : 'bottom';
-      var end = axis === 'x' ? 'left' : 'top';
+    //         if (distanceY > this.minimumDistance)
+    //           this.addDistance('y', distanceY, boxA, boxB);
+    //       }
+    //     }
+    //   }
+    // },
+    // addDistance: function(axis, distance, boxA, boxB) {
+    //   var start = axis === 'x' ? 'right' : 'bottom';
+    //   var end = axis === 'x' ? 'left' : 'top';
 
-      if (this.distances[distance] === undefined)
-        this.distances[distance] = new Array();
-      this.distances[distance].push({
-        axis: axis,
-        boxA: boxA,
-        boxB: boxB
-      });
-    },
-    renderDistance: function(axis, distance, boxA, boxB) {
-      var css;
+    //   if (this.distances[distance] === undefined)
+    //     this.distances[distance] = new Array();
+    //   this.distances[distance].push({
+    //     axis: axis,
+    //     boxA: boxA,
+    //     boxB: boxB
+    //   });
+    // },
+    // renderDistance: function(axis, distance, boxA, boxB) {
+    //   var css;
 
-      if (axis === 'x') {
-        var boxWithSmallerHeight = boxA.height < boxB.height ? boxA : boxB;
+    //   if (axis === 'x') {
+    //     var boxWithSmallerHeight = boxA.height < boxB.height ? boxA : boxB;
 
-        css = {
-          top: boxWithSmallerHeight.y + Math.round(boxWithSmallerHeight.height / 2),
-          left: boxA.right,
-          width: distance - 10
-        };
+    //     css = {
+    //       top: boxWithSmallerHeight.y + Math.round(boxWithSmallerHeight.height / 2),
+    //       left: boxA.right,
+    //       width: distance - 10
+    //     };
 
-      } else {
-        var boxWithSmallerWidth = boxA.width < boxB.width ? boxA : boxB;
+    //   } else {
+    //     var boxWithSmallerWidth = boxA.width < boxB.width ? boxA : boxB;
 
-        css = {
-          top: boxA.bottom,
-          left: boxWithSmallerSide.x + Math.round(boxWithSmallerSide.width / 2),
-          height: distance - 10
-        };
-      }
+    //     css = {
+    //       top: boxA.bottom,
+    //       left: boxWithSmallerSide.x + Math.round(boxWithSmallerSide.width / 2),
+    //       height: distance - 10
+    //     };
+    //   }
 
-      this.element.append(
-        $('<div class="distance guide">')
-        .addClass('axis-' + axis)
-        .css(css)
-        .append($('<div class="label">').text(distance + "px"))
-      );
-    },
-    drawStaticDistances: function() {
-      for (distance in this.distances) {
-        for (var i = 0; i < this.distances[distance].length; i++) {
-          var gap = this.distances[distance][i];
-          this.renderDistance(gap.axis, distance, gap.boxA, gap.boxB);
-        }
-      }
-    },
+    //   this.element.append(
+    //     $('<div class="distance guide">')
+    //     .addClass('axis-' + axis)
+    //     .css(css)
+    //     .append($('<div class="label">').text(distance + "px"))
+    //   );
+    // },
+    // drawStaticDistances: function() {
+    //   for (distance in this.distances) {
+    //     for (var i = 0; i < this.distances[distance].length; i++) {
+    //       var gap = this.distances[distance][i];
+    //       this.renderDistance(gap.axis, distance, gap.boxA, gap.boxB);
+    //     }
+    //   }
+    // },
     removeGuides: function() {
       this.element.find('.guide:not(.static)').remove();
     },
@@ -361,7 +361,7 @@
       this.element.find('.guide.static').remove();
       this.drawStaticGuides('x');
       this.drawStaticGuides('y');
-      //this.drawStaticDistances();
+      // this.drawStaticDistances();
     },
     drawStaticGuides: function(axis) {
       for (var i = 0; i < this.edges[axis].length; i++) {
@@ -483,7 +483,7 @@
       $(document).bind('mouseup', this.stopToDrag.bind(this));
 
       this.excludeBoxformEdges();
-      this.excludeBoxFromDistances();
+      // this.excludeBoxFromDistances();
       this.parent.showAllGuides();
 
       this.parent.select(this);
@@ -539,20 +539,20 @@
       });
       this.snapToDistances(options);
     },
-    excludeBoxFromDistances: function() {
-      for (distance in this.parent.distances) {
-        var gaps = this.parent.distances[distance];
+    // excludeBoxFromDistances: function() {
+    //   for (distance in this.parent.distances) {
+    //     var gaps = this.parent.distances[distance];
 
-        for (var i = 0; i < gaps.length; i++) {
-          var gap = gaps[i];
-          if (this.is(gap.boxA) || this.is(gap.boxB))
-            gaps.remove(i--);
-        }
+    //     for (var i = 0; i < gaps.length; i++) {
+    //       var gap = gaps[i];
+    //       if (this.is(gap.boxA) || this.is(gap.boxB))
+    //         gaps.remove(i--);
+    //     }
 
-        if (gaps.length === 0)
-          delete this.parent.distances[distance];
-      }
-    },
+    //     if (gaps.length === 0)
+    //       delete this.parent.distances[distance];
+    //   }
+    // },
     excludeBoxformEdges: function() {
       this.parent.edges.x.removeEntry(this.x);
       this.parent.edges.x.removeEntry(this.x + Math.round(this.width / 2));
